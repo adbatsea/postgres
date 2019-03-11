@@ -41,6 +41,12 @@ static inline void swap_nodes(binaryheap *heap, int a, int b);
  * the given comparator function, which will be invoked with the additional
  * argument specified by 'arg'.
  */
+/*
+ * binaryheap_allocate
+ *
+ * 返回一个指向新分配堆的指针，这个堆能够保存给定数量的节点。堆属性通过给定的比较函数来定义，
+ * 调用这个函数时，会使用'arg'指定的额外参数。
+ */
 binaryheap *
 binaryheap_allocate(int capacity, binaryheap_comparator compare, void *arg)
 {
