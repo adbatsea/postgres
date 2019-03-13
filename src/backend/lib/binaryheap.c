@@ -71,6 +71,11 @@ binaryheap_allocate(int capacity, binaryheap_comparator compare, void *arg)
  * Resets the heap to an empty state, losing its data content but not the
  * parameters passed at allocation.
  */
+/*
+ * binaryheap_reset
+ *
+ * 将堆重设为空状态，移除数据但保留分配时传入的参数。
+ */
 void
 binaryheap_reset(binaryheap *heap)
 {
@@ -82,6 +87,11 @@ binaryheap_reset(binaryheap *heap)
  * binaryheap_free
  *
  * Releases memory used by the given binaryheap.
+ */
+/*
+ * binaryheap_free
+ *
+ * 释放给定二叉堆使用的内存。
  */
 void
 binaryheap_free(binaryheap *heap)
@@ -96,6 +106,12 @@ binaryheap_free(binaryheap *heap)
  * The heap is represented as an array of nodes, with the root node
  * stored at index 0. The left child of node i is at index 2*i+1, and
  * the right child at 2*i+2. The parent of node i is at index (i-1)/2.
+ */
+/*
+ * 这些工具函数分别返回给定索引号的节点的左子节点、右子节点、父节点的偏移量。
+ *
+ * 堆表示为节点的数组，根节点保存在索引0中。节点的左子节点索引为2*i+1，右子节点索引为
+ * 2*i+2。节点i的父节点索引为(i-1)/2。
  */
 
 static inline int
