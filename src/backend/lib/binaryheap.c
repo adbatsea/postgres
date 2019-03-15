@@ -140,6 +140,12 @@ parent_offset(int i)
  * to a new heap. To obtain a valid heap, one must call binaryheap_build()
  * afterwards.
  */
+/*
+ * binaryheap_add_unordered
+ *
+ * 将给定的数据添加到堆的节点序列的末尾，时间复杂度为O(1)，不保持堆的属性。这便于将元素快速地添加到
+ * 新堆中。为了获得一个有效的堆，必须在这之后调用binaryheap_build()。
+ */
 void
 binaryheap_add_unordered(binaryheap *heap, Datum d)
 {
@@ -155,6 +161,12 @@ binaryheap_add_unordered(binaryheap *heap, Datum d)
  *
  * Assembles a valid heap in O(n) from the nodes added by
  * binaryheap_add_unordered(). Not needed otherwise.
+ */
+/*
+ * binaryheap_build
+ *
+ * 将通过binaryheap_add_unordered()函数添加的节点组合成一个有效的堆，
+ * 时间复杂度为O(n)。否则的话不需要调用。
  */
 void
 binaryheap_build(binaryheap *heap)
