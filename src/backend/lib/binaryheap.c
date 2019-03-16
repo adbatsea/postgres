@@ -184,6 +184,11 @@ binaryheap_build(binaryheap *heap)
  * Adds the given datum to the heap in O(log n) time, while preserving
  * the heap property.
  */
+/*
+ * binaryheap_add
+ *
+ * 将给定的数据添加到堆中，时间复杂度为O(log n)，保持堆的属性。
+ */
 void
 binaryheap_add(binaryheap *heap, Datum d)
 {
@@ -200,6 +205,12 @@ binaryheap_add(binaryheap *heap, Datum d)
  * Returns a pointer to the first (root, topmost) node in the heap
  * without modifying the heap. The caller must ensure that this
  * routine is not used on an empty heap. Always O(1).
+ */
+/*
+ * binaryheap_first
+ *
+ * 返回堆中第一个（根、最顶层）节点的指针，不修改这个堆。调用者必须保证调用这个函数的
+ * 时候，堆不为空。时间复杂度为O(1)。
  */
 Datum
 binaryheap_first(binaryheap *heap)
