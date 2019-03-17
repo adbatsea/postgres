@@ -251,7 +251,7 @@ binaryheap_remove_first(binaryheap *heap)
 	 */
 	/*
 	 * 交换根节点和最后一个节点，将堆的大小减1（也就是移除先前的那个根节点）。然后将新的根节点
-	 * 向下移动到它的新位置。
+	 * 下推至它的新位置。
 	 */
 	swap_nodes(heap, 0, heap->bh_size - 1);
 	heap->bh_size--;
@@ -267,6 +267,12 @@ binaryheap_remove_first(binaryheap *heap)
  * property.  O(1) in the best case, or O(log n) if it must fall back to
  * sifting the new node down.
  */
+/*
+ * binaryheap_replace_first
+ *
+ * 替换一个非空堆的最顶层元素，且保持堆属性。最好情况下的时间复杂度为O(1)。如果必须将
+ * 新的节点下推，则时间复杂度为O(log n)。
+ */
 void
 binaryheap_replace_first(binaryheap *heap, Datum d)
 {
@@ -280,6 +286,9 @@ binaryheap_replace_first(binaryheap *heap, Datum d)
 
 /*
  * Swap the contents of two nodes.
+ */
+/*
+ * 交换两个节点的内容。
  */
 static inline void
 swap_nodes(binaryheap *heap, int a, int b)
@@ -295,6 +304,9 @@ swap_nodes(binaryheap *heap, int a, int b)
  * Sift a node up to the highest position it can hold according to the
  * comparator.
  */
+/*
+ * 基于比较器，将一个节点上移至它所能到达的最高位置。
+ */
 static void
 sift_up(binaryheap *heap, int node_off)
 {
@@ -307,6 +319,9 @@ sift_up(binaryheap *heap, int node_off)
 		 * If this node is smaller than its parent, the heap condition is
 		 * satisfied, and we're done.
 		 */
+		/*
+		 * 如果当前节点小于它的父节点，那么堆的条件已经满足，我们完成了上移操作。
+		 */
 		parent_off = parent_offset(node_off);
 		cmp = heap->bh_compare(heap->bh_nodes[node_off],
 							   heap->bh_nodes[parent_off],
@@ -318,6 +333,9 @@ sift_up(binaryheap *heap, int node_off)
 		 * Otherwise, swap the node and its parent and go on to check the
 		 * node's new parent.
 		 */
+		/*
+		 * 否则，交换当前节点和其父节点，继续检查父节点。
+		 */
 		swap_nodes(heap, node_off, parent_off);
 		node_off = parent_off;
 	}
@@ -326,6 +344,9 @@ sift_up(binaryheap *heap, int node_off)
 /*
  * Sift a node down from its current position to satisfy the heap
  * property.
+ */
+/*
+ * 将一个节点从当前位置下推以满足堆属性。
  */
 static void
 sift_down(binaryheap *heap, int node_off)
@@ -337,6 +358,7 @@ sift_down(binaryheap *heap, int node_off)
 		int			swap_off = 0;
 
 		/* Is the left child larger than the parent? */
+		/* 左子节点大于父节点？ */
 		if (left_off < heap->bh_size &&
 			heap->bh_compare(heap->bh_nodes[node_off],
 							 heap->bh_nodes[left_off],
@@ -344,12 +366,14 @@ sift_down(binaryheap *heap, int node_off)
 			swap_off = left_off;
 
 		/* Is the right child larger than the parent? */
+		/* 右子节点大于父节点？ */
 		if (right_off < heap->bh_size &&
 			heap->bh_compare(heap->bh_nodes[node_off],
 							 heap->bh_nodes[right_off],
 							 heap->bh_arg) < 0)
 		{
 			/* swap with the larger child */
+			/* 需要跟更大的那个子节点交换 */
 			if (!swap_off ||
 				heap->bh_compare(heap->bh_nodes[left_off],
 								 heap->bh_nodes[right_off],
@@ -361,12 +385,18 @@ sift_down(binaryheap *heap, int node_off)
 		 * If we didn't find anything to swap, the heap condition is
 		 * satisfied, and we're done.
 		 */
+		/*
+		 * 没发现需要交换的节点，堆的条件已经满足，我们完成了下推操作。
+		 */
 		if (!swap_off)
 			break;
 
 		/*
 		 * Otherwise, swap the node with the child that violates the heap
 		 * property; then go on to check its children.
+		 */
+		/*
+		 * 否则，交换当前节点和其违反了堆属性的子节点；然后继续检查子节点。
 		 */
 		swap_nodes(heap, swap_off, node_off);
 		node_off = swap_off;
