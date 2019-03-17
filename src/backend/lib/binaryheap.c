@@ -227,6 +227,12 @@ binaryheap_first(binaryheap *heap)
  * that this routine is not used on an empty heap. O(log n) worst
  * case.
  */
+/*
+ * binaryheap_remove_first
+ *
+ * 移除堆的第一个（根、最顶层）节点，然后在重平衡这个堆之后，返回指向被移除的节点的
+ * 指针。调用者必须保证调用这个函数的时候，堆不为空。最坏情况下，时间复杂度为O(log n)。
+ */
 Datum
 binaryheap_remove_first(binaryheap *heap)
 {
@@ -242,6 +248,10 @@ binaryheap_remove_first(binaryheap *heap)
 	 * Swap the root and last nodes, decrease the size of the heap (i.e.
 	 * remove the former root node) and sift the new root node down to its
 	 * correct position.
+	 */
+	/*
+	 * 交换根节点和最后一个节点，将堆的大小减1（也就是移除先前的那个根节点）。然后将新的根节点
+	 * 向下移动到它的新位置。
 	 */
 	swap_nodes(heap, 0, heap->bh_size - 1);
 	heap->bh_size--;
